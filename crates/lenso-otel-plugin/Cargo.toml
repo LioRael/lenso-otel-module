@@ -14,12 +14,16 @@ futures.workspace = true
 hmac.workspace = true
 lenso-kernel = { version = "0.2.0" }
 lenso-native-adapter = { version = "0.3.0" }
+opentelemetry-proto.workspace = true
+prost.workspace = true
+reqwest.workspace = true
 sha2.workspace = true
 
 [dev-dependencies]
 lenso-app-plan = { version = "0.3.0" }
 serde.workspace = true
 serde_json.workspace = true
+tokio = { version = "1.52", features = ["io-util", "macros", "net", "rt"] }
 
 [lints]
 workspace = true

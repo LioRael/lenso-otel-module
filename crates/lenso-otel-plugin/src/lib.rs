@@ -1,6 +1,7 @@
 //! Optional OpenTelemetry propagation and export Module for Lenso vNext.
 
 mod export;
+mod otlp_http;
 mod plugin;
 mod signal;
 mod trace;
@@ -11,6 +12,7 @@ pub use export::{
     MAX_OTEL_SIGNAL_NAME_BYTES, NoopExporter, OtelExportStats, OtelExporter, TelemetryAdmission,
     TelemetryError, TelemetryHandle,
 };
+pub use otlp_http::{OtlpHttpExporter, OtlpHttpExporterConfigError};
 pub use plugin::{
     DEFAULT_DIAGNOSTIC_QUEUE_CAPACITY, DEFAULT_TELEMETRY_QUEUE_CAPACITY, OTEL_PLUGIN_PACKAGE_ID,
     OTEL_TELEMETRY_CAPABILITY_ID, OTEL_TELEMETRY_DESCRIPTOR_VERSION, OTEL_TELEMETRY_OPERATION,
