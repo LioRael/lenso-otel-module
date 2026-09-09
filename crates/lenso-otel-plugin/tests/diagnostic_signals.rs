@@ -12,6 +12,7 @@ fn converts_structural_runtime_facts_to_an_otel_log_without_payloads() {
         timestamp: Duration::from_millis(12),
         source: DiagnosticSource::Invocation,
         event: DiagnosticEvent::InvocationCompleted {
+            requirement_id: Some("business".to_owned()),
             request_id: 42,
             caller_instance: Some("consumer".to_owned()),
             provider_instance: Some("provider".to_owned()),
@@ -35,6 +36,10 @@ fn converts_structural_runtime_facts_to_an_otel_log_without_payloads() {
     assert_eq!(
         log.attributes.get("lenso.diagnostic.outcome"),
         Some(&"domain_error".to_owned())
+    );
+    assert_eq!(
+        log.attributes.get("lenso.requirement.id"),
+        Some(&"business".to_owned())
     );
     assert_eq!(
         log.attributes.get("lenso.request.id"),

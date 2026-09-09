@@ -12,15 +12,15 @@ description = "OpenTelemetry Plugin for Lenso vNext applications."
 base64.workspace = true
 futures.workspace = true
 hmac.workspace = true
-lenso-kernel = { version = "0.2.0" }
-lenso-native-adapter = { version = "0.3.0" }
+lenso-kernel = { version = "0.3.6" }
+lenso-native-adapter = { version = "0.3.13" }
 opentelemetry-proto.workspace = true
 prost.workspace = true
 reqwest.workspace = true
 sha2.workspace = true
 
 [dev-dependencies]
-lenso-app-plan = { version = "0.3.0" }
+lenso-app-plan = { version = "0.4.1" }
 serde.workspace = true
 serde_json.workspace = true
 tokio = { version = "1.52", features = ["io-util", "macros", "net", "rt"] }

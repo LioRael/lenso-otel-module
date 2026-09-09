@@ -160,6 +160,7 @@ pub fn diagnostic_to_signal(record: &DiagnosticRecord) -> OtelSignal {
             );
         }
         DiagnosticEvent::InvocationStarted {
+            requirement_id,
             request_id,
             caller_instance,
             provider_instance,
@@ -168,6 +169,7 @@ pub fn diagnostic_to_signal(record: &DiagnosticRecord) -> OtelSignal {
         } => {
             invocation_attributes(
                 &mut attributes,
+                requirement_id.as_deref(),
                 *request_id,
                 caller_instance.as_deref(),
                 provider_instance.as_deref(),
@@ -176,6 +178,7 @@ pub fn diagnostic_to_signal(record: &DiagnosticRecord) -> OtelSignal {
             );
         }
         DiagnosticEvent::InvocationCompleted {
+            requirement_id,
             request_id,
             caller_instance,
             provider_instance,
@@ -186,6 +189,7 @@ pub fn diagnostic_to_signal(record: &DiagnosticRecord) -> OtelSignal {
         } => {
             invocation_attributes(
                 &mut attributes,
+                requirement_id.as_deref(),
                 *request_id,
                 caller_instance.as_deref(),
                 provider_instance.as_deref(),
@@ -204,6 +208,7 @@ pub fn diagnostic_to_signal(record: &DiagnosticRecord) -> OtelSignal {
             );
         }
         DiagnosticEvent::AdmissionRejected {
+            requirement_id,
             request_id,
             caller_instance,
             provider_instance,
@@ -213,6 +218,7 @@ pub fn diagnostic_to_signal(record: &DiagnosticRecord) -> OtelSignal {
         } => {
             invocation_attributes(
                 &mut attributes,
+                requirement_id.as_deref(),
                 *request_id,
                 caller_instance.as_deref(),
                 provider_instance.as_deref(),
@@ -226,6 +232,7 @@ pub fn diagnostic_to_signal(record: &DiagnosticRecord) -> OtelSignal {
             );
         }
         DiagnosticEvent::EventAdmission {
+            requirement_id,
             request_id,
             publisher_instance,
             subscriber_instance,
@@ -233,6 +240,11 @@ pub fn diagnostic_to_signal(record: &DiagnosticRecord) -> OtelSignal {
             operation,
             outcome,
         } => {
+            optional_attribute(
+                &mut attributes,
+                "lenso.requirement.id",
+                requirement_id.as_deref(),
+            );
             attribute(&mut attributes, "lenso.request.id", *request_id);
             attribute(
                 &mut attributes,
@@ -321,12 +333,14 @@ pub fn diagnostic_to_signal(record: &DiagnosticRecord) -> OtelSignal {
 
 fn invocation_attributes(
     attributes: &mut BTreeMap<String, String>,
+    requirement_id: Option<&str>,
     request_id: u64,
     caller_instance: Option<&str>,
     provider_instance: Option<&str>,
     capability: &'static str,
     operation: Option<&'static str>,
 ) {
+    optional_attribute(attributes, "lenso.requirement.id", requirement_id);
     attribute(attributes, "lenso.request.id", request_id);
     optional_attribute(attributes, "lenso.caller.instance", caller_instance);
     optional_attribute(attributes, "lenso.provider.instance", provider_instance);
@@ -379,6 +393,7 @@ fn diagnostic_event_name(event: &DiagnosticEvent) -> &'static str {
 
 fn lifecycle_phase_name(phase: PluginLifecyclePhase) -> &'static str {
     match phase {
+        PluginLifecyclePhase::Construct => "construct",
         PluginLifecyclePhase::Prepare => "prepare",
         PluginLifecyclePhase::Activate => "activate",
         PluginLifecyclePhase::Ready => "ready",
