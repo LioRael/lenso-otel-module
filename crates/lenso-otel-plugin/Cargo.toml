@@ -6,7 +6,7 @@ license.workspace = true
 publish = true
 repository.workspace = true
 rust-version.workspace = true
-description = "OpenTelemetry Plugin for Lenso vNext applications."
+description = "OpenTelemetry Plugin for Lenso applications."
 
 [dependencies]
 base64.workspace = true
